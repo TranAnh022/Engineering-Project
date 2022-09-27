@@ -21,17 +21,13 @@ const materialSlice = createSlice({
     name: 'material',
     initialState,
     reducers: {
-        getMaterial: (state, action:PayloadAction<string>)=> {
-            const material = materials.filter(m => m.Obj_Id.toLowerCase().includes(action.payload.toLowerCase()))
-            return material
-        },
         initializedMetarial: (_state, action) => {
             return action.payload
-        }
+        },
     }
 })
 
-export const { getMaterial,initializedMetarial} = materialSlice.actions
+export const {initializedMetarial} = materialSlice.actions
 
 export default materialSlice.reducer
 

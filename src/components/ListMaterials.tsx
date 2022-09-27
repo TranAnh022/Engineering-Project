@@ -7,7 +7,7 @@ const ListMaterials = () => {
     const materialDetail = useSelector(({ material }: { material: Material[] }) => material)
 
   return (
-    <div>
+    <div className='container mt-3'>
          <Table striped bordered hover>
       <thead>
         <tr>

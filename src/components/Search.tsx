@@ -1,15 +1,15 @@
 import React,{useState} from 'react'
 import Form from 'react-bootstrap/Form';
 import {Button} from 'react-bootstrap'
-import { getMaterial } from '../reducers/materialReducer';
 import { useDispatch } from 'react-redux';
+import { filterMaterial } from '../reducers/filterReducer';
 const Search = () => {
   const [material, setMaterial] = useState<string>("")
-
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
+  
   const handleSubmit = (event:any):void => {
     event.preventDefault()
-    dispatch(getMaterial(material))
+    dispatch(filterMaterial(material))
     setMaterial("")
   }
   return (
