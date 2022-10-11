@@ -6,7 +6,7 @@ import { filterMaterial } from '../reducers/filterReducer';
 const Search = () => {
   const [material, setMaterial] = useState<string>("")
   const dispatch = useDispatch()
-  
+
   const handleSubmit = (event:any):void => {
     event.preventDefault()
     dispatch(filterMaterial(material))

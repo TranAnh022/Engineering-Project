@@ -26,7 +26,7 @@ const ListMaterials = () => {
                 <tr>
                     <td>{m.Obj_Id}</td>
                     <td>{m.Obj_name}</td>
-                    <td>{m.materials}</td>
+                    <td>{m.elements}</td>
                     <td>{m.remarks}</td>
                     <td>{m.mass}</td>
                     <td>{m.density}</td>

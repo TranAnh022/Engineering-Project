@@ -9,7 +9,7 @@ const filterSlice = createSlice({
     initialState,
     reducers: {
         filterMaterial: (state, action:PayloadAction<string>)=> {
-            const material = materials.filter(m => m.Obj_Id.toLowerCase().includes(action.payload.toLowerCase()))
+            const material = materials.filter(m => m.Obj_Id.toLowerCase()===action.payload.toLowerCase() ? m : null)
             return material
         }
     }
