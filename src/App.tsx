@@ -12,8 +12,7 @@ import Detail from './components/Detail';
 function App() {
   const dispatch = useDispatch();
   const filterMaterial = useSelector(({ filterMaterial }: { filterMaterial: Material[] }) => filterMaterial)
-  console.log(filterMaterial)
-
+  
   useEffect(() => {
     dispatch(initializedMetarial(materials))
   },[dispatch])
