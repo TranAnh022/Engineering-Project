@@ -1,7 +1,5 @@
-import { createSlice,PayloadAction  } from '@reduxjs/toolkit'
-import {materials} from '../data'
-import { Material } from '../types'
-
+import { createSlice } from "@reduxjs/toolkit";
+import { Material } from "../types";
 
 // const initialState: Material = {
 //     Obj_Id: "",
@@ -15,19 +13,18 @@ import { Material } from '../types'
 //     density:0,
 //     kg: 0
 // }
-const initialState: Material[]=[]
+const initialState: Material[] = [];
 
 const materialSlice = createSlice({
-    name: 'material',
-    initialState,
-    reducers: {
-        initializedMetarial: (_state, action) => {
-            return action.payload
-        },
-    }
-})
+  name: "material",
+  initialState,
+  reducers: {
+    initializedMetarial: (_state, action) => {
+      return action.payload;
+    },
+  },
+});
 
-export const {initializedMetarial} = materialSlice.actions
+export const { initializedMetarial } = materialSlice.actions;
 
-export default materialSlice.reducer
-
+export default materialSlice.reducer;

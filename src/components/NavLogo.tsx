@@ -1,11 +1,13 @@
-import React from 'react'
-import { Container } from 'react-bootstrap'
-import Navbar from 'react-bootstrap/Navbar';
-const logo=require('../assets/logo.png')
+import React from "react";
+import { Container } from "react-bootstrap";
+import Navbar from "react-bootstrap/Navbar";
+const logo = require("../assets/logo.png");
+
 const NavLogo = () => {
   return (
-    <Navbar bg="lighht" variant="dark">
-        <Container>
+    <div className="container fluid">
+      <Navbar bg="lighht" variant="dark">
+        <Container fluid>
           <Navbar.Brand href="#home">
             <img
               alt=""
@@ -17,7 +19,8 @@ const NavLogo = () => {
           </Navbar.Brand>
         </Container>
       </Navbar>
-  )
-}
+    </div>
+  );
+};
 
-export default NavLogo
+export default NavLogo;

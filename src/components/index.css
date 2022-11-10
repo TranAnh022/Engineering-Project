@@ -1,7 +1,7 @@
 .container_thumpNail {
-    width: 100%;
-    height: 60vh;
-    object-fit: contain;
+  width: 100%;
+  height: 60vh;
+  object-fit: contain;
 }
 
 #thumpNail {
@@ -13,26 +13,23 @@
 }
 
 .content {
-    text-align: center;
-    position:absolute ;
-    margin: auto;
-    width: 30%;
-    height: 40vh;
-    top: 20vh;
+  text-align: center;
+  position: absolute;
+  margin: auto;
+  width: 30%;
+  height: 40vh;
+  top: 20vh;
+}
 
-  }
-
-  .content h1 {
-    position: absolute;
-    font-size: 2rem;
-    color: #fff;
-    left:10%;
-
-  }
+.content h1 {
+  position: absolute;
+  font-size: 2rem;
+  color: #fff;
+  left: 10%;
+}
 
 .shadow_card {
-    background: rgba(0,0,0,.6);
-    padding: 6rem 0;
-    width: 100%;
-
+  background: rgba(0, 0, 0, 0.6);
+  padding: 6rem 0;
+  width: 100%;
 }
