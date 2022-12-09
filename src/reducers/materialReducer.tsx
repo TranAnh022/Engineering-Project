@@ -1,18 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Material } from "../types";
+import axios from "axios";
 
-// const initialState: Material = {
-//     Obj_Id: "",
-//     Obj_name: "",
-//     dimensions: "",
-//     unit: "",
-//     standard:"",
-//     materials: "",
-//     remarks: "",
-//     mass:0 ,
-//     density:0,
-//     kg: 0
-// }
 const initialState: Material[] = [];
 
 const materialSlice = createSlice({
@@ -22,9 +11,12 @@ const materialSlice = createSlice({
     initializedMetarial: (_state, action) => {
       return action.payload;
     },
+    savePriceAndDate: (_state, action) => {
+      axios.put("http://127.0.0.1:8000/api/materials/",action.payload)
+    }
   },
 });
 
-export const { initializedMetarial } = materialSlice.actions;
+export const { initializedMetarial,savePriceAndDate} = materialSlice.actions;
 
 export default materialSlice.reducer;

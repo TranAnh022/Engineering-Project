@@ -5,12 +5,14 @@ import { Material } from "../types";
 
 const ListMaterials = () => {
   const materialDetail = useSelector(
-    ({ material }: { material: Material[] }) => material
+    ({ material }) => material
   );
+  const id = JSON.parse(localStorage.getItem("material"))[0].id;
 
+console.log(id);
   return (
     <div className="container mt-3">
-      <Table striped bordered hover>
+      {/* <Table striped bordered hover>
         <thead>
           <tr>
             <th>Obj_Id</th>
@@ -37,7 +39,7 @@ const ListMaterials = () => {
             );
           })}
         </tbody>
-      </Table>
+      </Table> */}
     </div>
   );
 };

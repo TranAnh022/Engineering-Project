@@ -4,24 +4,30 @@ import Chart from "react-apexcharts";
 import { useDispatch } from "react-redux";
 import { sortedMaterial } from "../reducers/sortedArrReducer";
 
-
-const PieChart = ({ keys, values }) => {
+const PieChart = ({ keys, values, other, otherValues, setMaterialPrice }) => {
   const [prices, setPrices] = useState([]);
+  const [otherPrices, setOtherPrices] = useState([]);
+  const [otherTotalPrice, setOtherTotalPrice] = useState();
+
   const dispatch = useDispatch();
+
+  const othersPercentage = 100 - values[0];
+
   let result = [];
   useEffect(() => {
-    sortPrices();
+    Prices();
   }, []);
 
   useEffect(() => {
     topPrice();
   }, []);
 
+
   if (!(keys && values)) return null;
 
-  const sortPrices = () => {
+  const Prices = () => {
     for (let i = 0; i <= priceComposition.length; i++) {
-      for (let j = 0; j <= keys.length+1; j++) {
+      for (let j = 0; j <= 12; j++) {
         if (Object.keys(priceComposition[j])[0] === keys[i]) {
           const price =
             (Object.values(priceComposition[j])[0] * values[i]) / 100;
@@ -29,7 +35,12 @@ const PieChart = ({ keys, values }) => {
         }
       }
     }
+    setMaterialPrice(result?.reduce((prev, curr) => prev + curr, 0) * 100);
     setPrices(result);
+    setOtherTotalPrice(
+      result.slice(1).reduce((prev, curr) => prev + Number(curr), 0)
+    );
+    setOtherPrices(result.slice(1));
   };
 
   const combineArrays = () => {
@@ -52,83 +63,157 @@ const PieChart = ({ keys, values }) => {
     dispatch(sortedMaterial(sortTable));
   };
 
-  return (
-    <div className="container d-flex justify-content-evenly text-center algin-center">
-      <div>
-        <h2> Chemical Position By Percentage</h2>
-        <Chart
-          series={values}
-          type="pie"
-          width="380"
-          options={{
-            chart: {
-              width: 380,
-              type: "pie",
-            },
-            labels: keys,
-            responsive: [
-              {
-                breakpoint: 480,
-                options: {
-                  chart: {
-                    width: 200,
-                  },
-                  legend: {
-                    position: "bottom",
-                  },
-                },
-              },
-            ],
-          }}
-        />
-      </div>
-      <div className="text-center">
-        <h2>Prices by Percentage</h2>
-        <Chart
-          series={prices}
-          type="pie"
-          width="380"
-          options={{
-            colors: [
-              "#F3B415",
-              "#F27036",
-              "#663F59",
-              "#6A6E94",
-              "#4E88B4",
-              "#00A7C6",
-              "#18D8D8",
-              "#A9D794",
-              "#46AF78",
-              "#A93F55",
-              "#8C5E58",
-              "#2176FF",
-              "#33A1FD",
-              "#7A918D",
-              "#BAFF29",
-            ],
-            chart: {
-              width: 380,
-              type: "pie",
-            },
-            labels: keys,
-            responsive: [
-              {
-                breakpoint: 480,
-                options: {
-                  chart: {
-                    width: 200,
-                  },
-                  legend: {
-                    position: "bottom",
-                  },
-                },
-              },
-            ],
-          }}
-        />
-      </div>
-      <div></div>
 
+
+  return (
+    <div className="container d-flex text-center algin-center">
+      <div>
+        <h2>Composition by Percentage</h2>
+        <div className="d-flex algin-center mt-5">
+          <Chart
+            series={[values[0], othersPercentage]}
+            type="pie"
+            width="320"
+            options={{
+              title: {
+                text: "Composition by Percentage",
+                align: "right",
+                margin: 10,
+                padding: 5,
+                offsetX: -20,
+                offsetY: 0,
+                floating: false,
+                style: {
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  fontFamily: undefined,
+                  color: "#263238",
+                },
+              },
+              labels: ["Fe", "others"],
+              legend: {
+                position: "left",
+                offsetX: 20,
+                offsetY: 20,
+                fontSize: "14px",
+                fontFamily: "Helvetica, Arial",
+                fontWeight: 400,
+                width: 90,
+              },
+            }}
+          />
+          <Chart
+            series={otherValues}
+            type="pie"
+            width="300"
+            options={{
+              title: {
+                text: "Other",
+                align: "center",
+                margin: 10,
+                offsetX: 50,
+                offsetY: 0,
+                floating: false,
+                style: {
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  fontFamily: undefined,
+                  color: "#263238",
+                },
+              },
+              labels: other,
+              legend: {
+                position: "left",
+                offsetX: 20,
+                offsetY: 20,
+                fontSize: "14px",
+                fontFamily: "Helvetica, Arial",
+                fontWeight: 400,
+                width: 90,
+              },
+              chart: {
+                offsetX: -60,
+              },
+            }}
+          />
+        </div>
+      </div>
+
+      <div>
+        <h2 >Prices by Percentage</h2>
+        <div className="d-flex algin-center mt-5">
+          <Chart
+            series={[prices?.shift(), otherTotalPrice]}
+            type="pie"
+            width="320"
+            options={{
+              title: {
+                text: "Prices By Percentage",
+                align: "right",
+                margin: 10,
+                padding: 5,
+                offsetX: -20,
+                offsetY: 0,
+                floating: false,
+                style: {
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  fontFamily: undefined,
+                  color: "#263238",
+                },
+              },
+              labels: ["Fe", "Other"],
+              legend: {
+                position: "left",
+                offsetX: 20,
+                offsetY: 20,
+                fontSize: "14px",
+                fontFamily: "Helvetica, Arial",
+                fontWeight: 400,
+                width: 90,
+              },
+              chart: {
+                offsetX: 40,
+              },
+            }}
+          />
+          <Chart
+            series={otherPrices}
+            type="pie"
+            width="300"
+            options={{
+              chart: {
+                width: 300,
+                type: "pie",
+              },
+              labels: other,
+              title: {
+                text: "Other",
+                align: "center",
+                margin: 10,
+                offsetX: 50,
+                offsetY: 0,
+                floating: false,
+                style: {
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  fontFamily: undefined,
+                  color: "#263238",
+                },
+              },
+              legend: {
+                position: "left",
+                offsetX: 20,
+                offsetY: 20,
+                fontSize: "14px",
+                fontFamily: "Helvetica, Arial",
+                fontWeight: 400,
+                width: 90,
+              },
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 };

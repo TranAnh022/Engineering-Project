@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Chart from "react-apexcharts";
-import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { savePriceAndDate } from "../reducers/materialReducer";
+import { useDispatch } from "react-redux";
 
 const urlBase =
-  "https://metals-api.com/api/timeseries?access_key=r2rjv2wl33sx2m1ehheiyyjcp4d5lzqibjse8i7vpe48w721f94943f5l91u&start_date=2022-01-01&end_date=2022-01-10&base=EURO";
+  "https://metals-api.com/api/timeseries?access_key=1q001ahpb5c5p8yb9vp0852f96qouvc877kp6kxa1jj726961p74yyfw42lp&start_date=2022-01-01&end_date=2022-01-13&base=EURO";
 
-const urlBackend = "http://127.0.0.1:8000/api/products/";
+// const urlBackend = "http://127.0.0.1:8000/api/products/";
 
 const DrawLineChart = ({ composition }) => {
   const [data, setData] = useState([]);
-  console.log(composition);
+  const dispatch = useDispatch();
+
+  const id = JSON.parse(localStorage.getItem("material"))[0].id;
+
   useEffect(() => {
     fetchData(composition);
   }, []);
@@ -22,10 +26,12 @@ const DrawLineChart = ({ composition }) => {
         .get(`${urlBase}&symbols=IRON`)
         .then((response) => {
           const priceArr = Object.values(response.data.rates);
+          console.log(priceArr)
           const list = priceArr.map((data) => {
             return Object.values(data)[0]?.toFixed(2);
           });
           setData(list);
+          dispatch(savePriceAndDate(response.data.rates,id=47));
         })
         .catch((err) => console.log(err));
     }
@@ -73,8 +79,6 @@ const DrawLineChart = ({ composition }) => {
         .catch((err) => console.log(err));
     }
   };
-
-  console.log(data);
   return (
     <div>
       {data.length > 0 && (
@@ -122,6 +126,9 @@ const DrawLineChart = ({ composition }) => {
                 "Jul",
                 "Aug",
                 "Sep",
+                "Oct",
+                "Nov",
+                "Dec",
               ],
             },
             yaxis: [
@@ -137,7 +144,7 @@ const DrawLineChart = ({ composition }) => {
                   },
                 },
                 title: {
-                  text: "EURO per ounce",
+                  text: "EURO per kg",
                   style: {
                     color: "#000000",
                     fontSize: "0.9rem",

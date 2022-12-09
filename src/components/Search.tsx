@@ -3,13 +3,19 @@ import Form from "react-bootstrap/Form";
 import { Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { filterMaterial } from "../reducers/filterReducer";
+import { useSelector } from "react-redux";
+import { Material } from "../types";
+
 const Search = () => {
   const [material, setMaterial] = useState<string>("");
   const dispatch = useDispatch();
+  const materialDetail = useSelector(
+    ({ material }: { material: Material[] }) => material
+  );
 
   const handleSubmit = (event: any): void => {
     event.preventDefault();
-    dispatch(filterMaterial(material));
+    dispatch(filterMaterial([material,materialDetail]));
     setMaterial("");
   };
   return (
