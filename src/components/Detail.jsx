@@ -9,10 +9,8 @@ const CompositionDetail = ({ compositions, material, setMaterialPrice,materialPr
 
    const nameCompositions = compositions.map(composition=> composition.name);
    const percentageCompositions = compositions.map(composition=> composition.percentage);
-   percentageCompositions.unshift(
-     100 - percentageCompositions.reduce((prev, curr) => prev + Number(curr), 0)
-   );
-   nameCompositions.unshift("Fe");
+
+
   return (
     <div>
       <Table striped bordered hover>
@@ -44,10 +42,13 @@ const CompositionDetail = ({ compositions, material, setMaterialPrice,materialPr
       <PieChart
         keys={nameCompositions}
         values={percentageCompositions}
-        otherValues={compositions.map((composition) =>
-          Number(composition.percentage)
+        otherValues={compositions.map(
+          (composition) =>
+            composition.name !== "Fe" && Number(composition.percentage)
         )}
-        other={compositions.map((composition) => composition.name)}
+        other={compositions.map(
+          (composition) => composition.name !== "Fe" && composition.name
+        )}
         setMaterialPrice={setMaterialPrice}
       />
     </div>
@@ -57,6 +58,7 @@ const CompositionDetail = ({ compositions, material, setMaterialPrice,materialPr
 const Detail = () => {
   const filterMaterial = useSelector(({ filterMaterial }) => filterMaterial);
   const [materialPrice, setMaterialPrice] = useState();
+
   return (
     <div className="container mt-3">
       {filterMaterial.map((m) => {
@@ -80,7 +82,7 @@ const Detail = () => {
             </Table>
             <header>Chemical Compositions(%) of {m.remarks}</header>
             <CompositionDetail
-              compositions={m?.modules}
+              compositions={m?.compositions}
               material={m?.elements}
               materialPrice={materialPrice}
               setMaterialPrice={setMaterialPrice}

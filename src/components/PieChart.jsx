@@ -10,8 +10,7 @@ const PieChart = ({ keys, values, other, otherValues, setMaterialPrice }) => {
   const [otherTotalPrice, setOtherTotalPrice] = useState();
 
   const dispatch = useDispatch();
-
-  const othersPercentage = 100 - values[0];
+  const othersPercentage = 100 - values.slice(-1)[0];
 
   let result = [];
   useEffect(() => {
@@ -21,7 +20,6 @@ const PieChart = ({ keys, values, other, otherValues, setMaterialPrice }) => {
   useEffect(() => {
     topPrice();
   }, []);
-
 
   if (!(keys && values)) return null;
 
@@ -38,9 +36,9 @@ const PieChart = ({ keys, values, other, otherValues, setMaterialPrice }) => {
     setMaterialPrice(result?.reduce((prev, curr) => prev + curr, 0) * 100);
     setPrices(result);
     setOtherTotalPrice(
-      result.slice(1).reduce((prev, curr) => prev + Number(curr), 0)
+      result.slice(0,-1).reduce((prev, curr) => prev + Number(curr), 0)
     );
-    setOtherPrices(result.slice(1));
+    setOtherPrices(result.slice(0, -1));
   };
 
   const combineArrays = () => {
@@ -51,11 +49,12 @@ const PieChart = ({ keys, values, other, otherValues, setMaterialPrice }) => {
     return arr;
   };
 
+  // Choosing 3 expensive composition
   const topPrice = () => {
     let sortTable = [];
     const array = combineArrays();
-    for (const chemical in array) {
-      sortTable.push([chemical, array[chemical]]);
+    for (const composition in array) {
+      sortTable.push([composition, array[composition]]);
     }
     sortTable.sort(function (a, b) {
       return b[1] - a[1];
@@ -63,15 +62,13 @@ const PieChart = ({ keys, values, other, otherValues, setMaterialPrice }) => {
     dispatch(sortedMaterial(sortTable));
   };
 
-
-
   return (
     <div className="container d-flex text-center algin-center">
       <div>
         <h2>Composition by Percentage</h2>
         <div className="d-flex algin-center mt-5">
           <Chart
-            series={[values[0], othersPercentage]}
+            series={[values.slice(-1)[0], othersPercentage]}
             type="pie"
             width="320"
             options={{
@@ -103,7 +100,7 @@ const PieChart = ({ keys, values, other, otherValues, setMaterialPrice }) => {
             }}
           />
           <Chart
-            series={otherValues}
+            series={otherValues.slice(0, -1)}
             type="pie"
             width="300"
             options={{
@@ -121,7 +118,7 @@ const PieChart = ({ keys, values, other, otherValues, setMaterialPrice }) => {
                   color: "#263238",
                 },
               },
-              labels: other,
+              labels: other.slice(0, -1),
               legend: {
                 position: "left",
                 offsetX: 20,
@@ -140,10 +137,10 @@ const PieChart = ({ keys, values, other, otherValues, setMaterialPrice }) => {
       </div>
 
       <div>
-        <h2 >Prices by Percentage</h2>
+        <h2>Prices by Percentage</h2>
         <div className="d-flex algin-center mt-5">
           <Chart
-            series={[prices?.shift(), otherTotalPrice]}
+            series={[prices.slice(-1)[0], otherTotalPrice]}
             type="pie"
             width="320"
             options={{
@@ -186,7 +183,7 @@ const PieChart = ({ keys, values, other, otherValues, setMaterialPrice }) => {
                 width: 300,
                 type: "pie",
               },
-              labels: other,
+              labels: other.slice(0,-1),
               title: {
                 text: "Other",
                 align: "center",

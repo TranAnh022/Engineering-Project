@@ -1,14 +1,13 @@
-import { createSlice} from "@reduxjs/toolkit";
-import { Material } from "../types";
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState: Material[] = [];
+const initialState = [];
 
 const sortedArrReducer = createSlice({
   name: "sortedArrMaterial",
   initialState,
   reducers: {
     sortedMaterial: (state, action) => {
-      return action.payload
+      return action.payload;
     },
   },
 });
